@@ -1,0 +1,38 @@
+<RCC>
+    <qresource prefix="/graphics">
+        <file alias="0.png">graphic/0.png</file>
+        <file alias="1.png">graphic/1.png</file>
+        <file alias="2.png">graphic/2.png</file>
+        <file alias="3.png">graphic/3.png</file>
+        <file alias="4.png">graphic/4.png</file>
+        <file alias="5.png">graphic/5.png</file>
+        <file alias="6.png">graphic/6.png</file>
+        <file alias="7.png">graphic/7.png</file>
+        <file alias="8.png">graphic/8.png</file>
+        <file alias="9.png">graphic/9.png</file>
+        <file alias="20.png">graphic/20.png</file>
+        <file alias="21.png">graphic/21.png</file>
+        <file alias="22.png">graphic/22.png</file>
+        <file alias="23.png">graphic/23.png</file>
+        <file alias="24.png">graphic/24.png</file>
+        <file alias="25.png">graphic/25.png</file>
+        <file alias="26.png">graphic/26.png</file>
+        <file alias="27.png">graphic/27.png</file>
+        <file alias="28.png">graphic/28.png</file>
+        <file alias="29.png">graphic/29.png</file>
+        <file alias="about.png">graphic/about.png</file>
+        <file alias="background_night.png">graphic/background_night.png</file>
+        <file alias="gameInfo.png">graphic/gameInfo.png</file>
+        <file alias="gameOver.png">graphic/gameOver.png</file>
+        <file alias="ground_segment.png">graphic/ground_segment.png</file>
+        <file alias="logo.png">graphic/logo.png</file>
+        <file alias="pipe_down.png">graphic/pipe_down.png</file>
+        <file alias="pipe_up.png">graphic/pipe_up.png</file>
+        <file alias="play.png">graphic/play.png</file>
+        <file alias="ready.png">graphic/ready.png</file>
+        <file alias="scoreBoard.png">graphic/scoreBoard.png</file>
+        <file alias="bird_up.png">graphic/bird_up.png</file>
+        <file alias="bird_down.png">graphic/bird_down.png</file>
+        <file alias="bird_middle.png">graphic/bird_middle.png</file>
+    </qresource>
+</RCC>
