@@ -7,7 +7,7 @@
 void ButtonFunctions::aboutAction(Game* instance)
 {
     QWidget *gameQObject = dynamic_cast<QWidget *>(instance);
-    QMessageBox::about(gameQObject, "Об игре", QString("Flappy Bird Hallowen от https://github.com/l0gic-bomb"));
+    QMessageBox::about(gameQObject, "Об игре", QString("Клон игры Flappy Bird - Flappy Bird Hallowen. Ссылка на исходный код https://github.com/l0gic-bomb"));
 }
 
 void ButtonFunctions::playAction(Game* instance)
