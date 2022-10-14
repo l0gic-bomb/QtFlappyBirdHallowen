@@ -10,22 +10,22 @@
 #include "common.h"
 
 Game::Game(View *GraphicsView, QSettings* const cfg, const int& windowWidth, const int& windowHeight)
-    : graphicsView(GraphicsView), _screenWidth(windowWidth), _screenHeight(windowHeight), config(cfg)
+    : graphicsView(GraphicsView), screenWidth(windowWidth), screenHeight(windowHeight), config(cfg)
 {
     loadConfiguration();
 
-    _scoreRecord = 0;
-    _score = 0;
+    scoreRecord = 0;
+    score = 0;
     birdClosestPipe = 1;
 
-    _gameFinished = false;
-    _gameStarted  = false;
-    _gameActuallyStarted = false;
+    gameFinished = false;
+    gameStarted  = false;
+    gameActuallyStarted = false;
 
-    _scaleFactor = DEFAULT_SCALEFACTOR;
+    scaleFactor = DEFAULT_SCALEFACTOR;
 
-    scene.reset(new Scene(this, QRectF(0, 0, _screenWidth, _screenHeight)));
-    physics.reset(new Physics(this, _physicsTickRate, _physicsComplexAnalysis, true, _physicsSpeedFactor, _physicsDisableCollisionDetection));
+    scene.reset(new Scene(this, QRectF(0, 0, screenWidth, screenHeight)));
+    physics.reset(new Physics(this, physicsTickRate, physicsComplexAnalysis, true, physicsSpeedFactor, physicsDisableCollisionDetection));
 }
 
 Game::~Game() noexcept
@@ -34,45 +34,45 @@ Game::~Game() noexcept
 
 void Game::loadConfiguration()
 {
-    _scaleFactor = config->value("ScaleFactor", _scaleFactor).toDouble();
+    scaleFactor = config->value("ScaleFactor", scaleFactor).toDouble();
 
     // Задаем настройки игры
     config->beginGroup("Physics");
-    _physicsTickRate = config->value("ComplexAnalyse", 7.5).toInt();
-    _physicsComplexAnalysis = config->value("TickRate", true).toBool();
-    _physicsSpeedFactor = config->value("SpeedFactor", 1).toDouble();
-    _physicsDisableCollisionDetection = config->value("DisableCollisionDetection", false).toBool();
+    physicsTickRate = config->value("ComplexAnalyse", 7.5).toInt();
+    physicsComplexAnalysis = config->value("TickRate", true).toBool();
+    physicsSpeedFactor = config->value("SpeedFactor", 1).toDouble();
+    physicsDisableCollisionDetection = config->value("DisableCollisionDetection", false).toBool();
     config->endGroup();
 }
 
 int Game::getScore() const noexcept
 {
-    return _score;
+    return score;
 }
 
 int Game::getScoreRecord() const noexcept
 {
-    return _scoreRecord;
+    return scoreRecord;
 }
 
 int Game::getScreenHeight() const noexcept
 {
-    return _screenHeight;
+    return screenHeight;
 }
 
 int Game::getScreenWidth() const noexcept
 {
-    return _screenWidth;
+    return screenWidth;
 }
 
 qreal Game::getScaleFactor() const noexcept
 {
-    return _scaleFactor;
+    return scaleFactor;
 }
 
 void Game::clickEvent()
 {
-    if (_gameActuallyStarted) {
+    if (gameActuallyStarted) {
         if (!isGameStarted()) {
 
             scene->bird->stopOscillate();
@@ -81,7 +81,7 @@ void Game::clickEvent()
             if (physics)
                 physics->switchOnlyGroundMove();
 
-            _gameStarted = true;
+            gameStarted = true;
         }
 
         if (scene->isGroupVisible(GROUP_NEWROUND))
@@ -96,19 +96,19 @@ void Game::prepareNewRound()
 {
     scene->flash(Qt::black, 500, QEasingCurve::Linear);
 
-    QTimer::singleShot(550, [this]() {
-        graphicsView->setBackgroundBrush(QBrush(QPixmap(BACKGROUND_NIGHT).scaled(_screenWidth, _screenHeight)));
+    QTimer::singleShot(550, [&]() {
+        graphicsView->setBackgroundBrush(QBrush(QPixmap(":/graphics/background_night.png").scaled(screenWidth, screenHeight)));
 
         scene->fadeGroup(GROUP_NEWROUND, true, 1, GROUP_ROUNDEND);
 
-        physics.reset(new Physics(this, _physicsTickRate, _physicsComplexAnalysis, false, _physicsSpeedFactor, _physicsDisableCollisionDetection));
+        physics.reset(new Physics(this, physicsTickRate, physicsComplexAnalysis, false, physicsSpeedFactor, physicsDisableCollisionDetection));
 
-        _score = -1;
+        score = -1;
         updateScore();
 
-        _gameStarted = false;
+        gameStarted = false;
 
-        scene->bird->setPos(scene->bird->boundingRect().width() * 2.75, POS_Y_LOGO(_screenHeight) + QPixmap(BIRD_UP).height() * 5);
+        scene->bird->setPos(scene->bird->boundingRect().width() * 2.75, POS_Y_LOGO(screenHeight) + QPixmap(":/graphics/bird_up.png").height() * 5);
 
         prepareGame();
 
@@ -123,41 +123,41 @@ void Game::prepareGame()
 {
     scene->bird->startOscillate();
 
-    _gameFinished = false;
-    _gameActuallyStarted = true;
+    gameFinished = false;
+    gameActuallyStarted = true;
 }
 
 void Game::gameOver()
 {
     physics->stop();
 
-    if (_score > _scoreRecord)
-        _scoreRecord = _score;
+    if (score > scoreRecord)
+        scoreRecord = score;
 
-    scene->gameOver(_score, _scoreRecord);
+    scene->gameOver(score, scoreRecord);
 
-    _gameFinished = true;
-    _gameActuallyStarted = false;
+    gameFinished = true;
+    gameActuallyStarted = false;
     birdClosestPipe = 1;
 }
 
 bool Game::isGameFinished() const noexcept
 {
-    return _gameFinished;
+    return gameFinished;
 }
 
 bool Game::isGameStarted() const noexcept
 {
-    return _gameStarted;
+    return gameStarted;
 }
 
 bool Game::isGameActuallyStarted() const noexcept
 {
-    return _gameActuallyStarted;
+    return gameActuallyStarted;
 }
 
 void Game::updateScore()
 {
-    ++_score;
-    scene->updateScore(_score);
+    ++score;
+    scene->updateScore(score);
 }

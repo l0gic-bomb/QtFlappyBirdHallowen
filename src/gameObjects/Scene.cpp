@@ -13,19 +13,19 @@ Scene::Scene(Game* parent, const QRectF& rect) : QGraphicsScene(rect), game(pare
     _isClickAvailable[0] = true;
     _isClickAvailable[1] = true;
 
-    QPixmap background(BACKGROUND_NIGHT);
+    QPixmap background(":/graphics/background_night.png");
     background = background.scaled(game->getScreenWidth(), game->getScreenHeight());
     game->graphicsView->setBackgroundBrush(QBrush(background));
     game->graphicsView->setScene(this);
     game->graphicsView->setSceneRect(sceneRect());
 
-    QPixmap logo(LOGO);
+    QPixmap logo(":/graphics/logo.png");
     PIXMAP_SCALE(logo, game->getScaleFactor())
     itemLogo = new QGraphicsPixmapItem(logo);
     itemLogo->setPos((game->getScreenWidth() / 2) - (logo.width() / 2),
                              POS_Y_LOGO(game->getScreenHeight()));
 
-    QPixmap pxmGround(GROUND_SEGMENT);
+    QPixmap pxmGround(":/graphics/ground_segment.png");
     PIXMAP_SCALE(pxmGround, game->getScaleFactor())
     _groundImage = QImage(game->getScreenWidth() * 2, pxmGround.height(), QImage::Format_RGB32);
     _groundImage.fill(0);
@@ -46,18 +46,18 @@ Scene::Scene(Game* parent, const QRectF& rect) : QGraphicsScene(rect), game(pare
     ground = std::make_unique<QGraphicsPixmapItem>(new QGraphicsPixmapItem(QPixmap::fromImage(_groundImage)));
     ground->setPos(0, game->getScreenHeight() - _groundImage.height() + _groundImage.height() / 7);
 
-    QPixmap pixmap_play(BUTTON_PLAY);
+    QPixmap pixmap_play(":/graphics/play.png");
     PIXMAP_SCALE(pixmap_play, game->getScaleFactor())
     btnPlay = new Button(game, pixmap_play, ButtonFunctions::playAction);
     btnPlay->setPos(game->getScreenWidth() / 2 - pixmap_play.width() * 1.2, ground->y() - pixmap_play.height());
 
-    QPixmap pixmapAbout(BUTTON_ABOUT);
+    QPixmap pixmapAbout(":/graphics/about.png");
     PIXMAP_SCALE(pixmapAbout, game->getScaleFactor())
     btnAbout = new Button(game, pixmapAbout, ButtonFunctions::aboutAction);
     btnAbout->setPos(game->getScreenWidth() - btnPlay->x() - pixmapAbout.width(), btnPlay->y());
 
-    QPixmap pipeDown(PIPE_DOWN);
-    QPixmap pipeUp(PIPE_UP);
+    QPixmap pipeDown(":/graphics/pipe_down.png");
+    QPixmap pipeUp(":/graphics/pipe_up.png");
     PIXMAP_SCALE(pipeDown, game->getScaleFactor())
     PIXMAP_SCALE(pipeUp,   game->getScaleFactor())
 
@@ -69,27 +69,27 @@ Scene::Scene(Game* parent, const QRectF& rect) : QGraphicsScene(rect), game(pare
     pipe[1][1] = new QGraphicsPixmapItem(pipeUp);
     pipe[1][2] = new QGraphicsPixmapItem(pipeUp);
 
-    QPixmap gameInfo(GAMEINFO);
+    QPixmap gameInfo(":/graphics/gameInfo.png");
     PIXMAP_SCALE(gameInfo, game->getScaleFactor())
     itemGameInfo = new QGraphicsPixmapItem(gameInfo);
     itemGameInfo->setPos(game->getScreenWidth() / 2 - gameInfo.width() / 2,
                          game->getScreenHeight() / 2 - gameInfo.height() / 3);
     itemGameInfo->setVisible(false);
 
-    QPixmap pixmap_gameOver(GAMEOVER);
+    QPixmap pixmap_gameOver(":/graphics/gameOver.png");
     PIXMAP_SCALE(pixmap_gameOver, game->getScaleFactor())
     itemGameOver = new QGraphicsPixmapItem(pixmap_gameOver);
     itemGameOver->setPos(itemLogo->pos());
     itemGameOver->setVisible(false);
 
-    QPixmap pixmap_scoreBoard(SCOREBOARD);
+    QPixmap pixmap_scoreBoard(":/graphics/scoreBoard.png");
     PIXMAP_SCALE(pixmap_scoreBoard, game->getScaleFactor())
     itemScoreBoard = new QGraphicsPixmapItem(pixmap_scoreBoard);
     itemScoreBoard->setPos(game->getScreenWidth() / 2 - pixmap_scoreBoard.width() / 2,
                                    itemGameOver->y() + itemGameOver->boundingRect().height() + (game->getScreenHeight() / 20.69));
     itemScoreBoard->setVisible(false);
 
-    _bigZero = QPixmap(BIGNUMBER_ZERO);
+    _bigZero = QPixmap(":/graphics/0.png");
     PIXMAP_SCALE(_bigZero, game->getScaleFactor())
     _mainScore = QImage(_bigZero.width() * 3, _bigZero.height(), QImage::Format_ARGB32);
     _mainScore.fill(qRgba(0, 0, 0, 0));
@@ -102,7 +102,7 @@ Scene::Scene(Game* parent, const QRectF& rect) : QGraphicsScene(rect), game(pare
     itemScore->setPos(game->getScreenWidth() / 2 - _bigZero.width() / 2,
                       _bigZero.height() * 2);
 
-    _smallZero = QPixmap(SMALLNUMBER_ZERO);
+    _smallZero = QPixmap(":/graphics/20.png");
     PIXMAP_SCALE(_smallZero, game->getScaleFactor())
     _endScore = QImage(pixmap_scoreBoard.width(), _smallZero.height(), QImage::Format_ARGB32);
     _endScore.fill(qRgba(0,0,0,0));
@@ -113,7 +113,7 @@ Scene::Scene(Game* parent, const QRectF& rect) : QGraphicsScene(rect), game(pare
     itemEndScoreRecord->setVisible(false);
 
 
-    QPixmap pixmap_bird(BIRD_UP);
+    QPixmap pixmap_bird(":/graphics/bird_up.png");
     QPointF posBird(game->getScreenWidth() / 2 - pixmap_bird.width() / 2,
                     itemLogo->pos().y() + pixmap_bird.height() * 5);
     PIXMAP_SCALE(pixmap_bird, game->getScaleFactor());
@@ -186,17 +186,11 @@ bool Scene::isGroupVisible(const int& groupIndex) const noexcept
     return groupItem[groupIndex][0]->isVisible();
 }
 
-//void Scene::pixmapScale(QPixmap* pixmap, const double &scale)
-//{
-//    auto tmp = (pixmap->size()) * scale;
-//    pixmap->scaled(tmp);
-//}
-
 void Scene::gameOver(const int& score, const int& scoreRecord)
 {
     flash(Qt::red, 300, QEasingCurve::Linear);
 
-    QPixmap reward = QPixmap(SCOREBOARD);
+    QPixmap reward = QPixmap(":/graphics/scoreBoard.png");
 
     PIXMAP_SCALE(reward, game->getScaleFactor())
     itemScoreBoard->setPixmap(reward);
@@ -231,7 +225,7 @@ QPixmap Scene::makeMainScore(const int& score)
 
     for (int i = 0; i < strScore.length(); ++i) {
         QPixmap generatedNumber;
-        generatedNumber.load(QString(BIGNUMBER_GENERIC).arg(strScore.mid(i, 1)));
+        generatedNumber.load(QString(":/graphics/%1.png").arg(strScore.mid(i, 1)));
 
         if (i == 0)
             painter.drawPixmap(i * zeroWidth, 0, zeroWidth, zeroHeight, generatedNumber);
@@ -262,7 +256,7 @@ QPixmap Scene::makeEndingScore(const int& score, int* pos)
     QPixmap generatedNumber;
 
     for (int counter = 0; counter < strScore.length(); ++counter) {
-        generatedNumber.load(QString(SMALLNUMBER_GENERIC).arg(strScore.mid(counter, 1)));
+        generatedNumber.load(QString(":/graphics/2%1.png").arg(strScore.mid(counter, 1)));
         painter.drawPixmap(counter * zeroWidth + 3, 0, zeroWidth, zeroHeight, generatedNumber);
     }
     painter.end();

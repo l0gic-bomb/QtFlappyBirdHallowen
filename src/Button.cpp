@@ -21,18 +21,18 @@ void ButtonFunctions::playAction(Game* instance)
 
 void Button::invoke(Game* parent)
 {
-    bool toggleStatus = (pixmap().data_ptr() == _firstPixmap.data_ptr());
+    bool toggleStatus = (pixmap().data_ptr() == firstPixmap.data_ptr());
     if (parent == nullptr) {
-        if (_toggle && !toggleStatus)
+        if (toggle && !toggleStatus)
             secondFunction(game);
         else
             firstFunction(game);
     } else
-        if (_toggle && !toggleStatus)
+        if (toggle && !toggleStatus)
             secondFunction(parent);
         else
             firstFunction(parent);
 
-    if (_toggle)
-        setPixmap(toggleStatus ? _secondPixmap : _firstPixmap);
+    if (toggle)
+        setPixmap(toggleStatus ? secondPixmap : firstPixmap);
 }

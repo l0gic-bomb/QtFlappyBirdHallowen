@@ -22,8 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
         screenWidth = graphicsView->width();
     }
 
-    _renderTimer = std::make_unique<QTimer>(new QTimer(this));
-    _resizer     = std::make_unique<QTimer>(new QTimer(this));
+    renderTimer = std::make_unique<QTimer>(new QTimer(this));
+    resizer     = std::make_unique<QTimer>(new QTimer(this));
 
     prepareManualViewportUpdate();
 
@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     game.reset(new Game(graphicsView.get(), config.get(), screenWidth, screenHeight));
 
-    connect(_resizer.get(), &QTimer::timeout, this, &MainWindow::resizeTriggered);
+    connect(resizer.get(), &QTimer::timeout, this, &MainWindow::resizeTriggered);
 }
 
 MainWindow::~MainWindow()
@@ -47,21 +47,21 @@ void MainWindow::prepareManualViewportUpdate()
 {
     graphicsView->setViewportUpdateMode(QGraphicsView::NoViewportUpdate);
 
-    _renderTimer->setInterval(0);
+    renderTimer->setInterval(0);
 
-    connect(_renderTimer.get(), &QTimer::timeout, [this]() {
+    connect(renderTimer.get(), &QTimer::timeout, [&]() {
         graphicsView->viewport()->update();
     });
-    _renderTimer->start();
+    renderTimer->start();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
 
-    if (!_resizer->isActive())
-        _resizer->start(100);
-    _resized = true;
+    if (!resizer->isActive())
+        resizer->start(100);
+    resized = true;
 }
 
 void MainWindow::moveEvent(QMoveEvent *event)
@@ -71,7 +71,7 @@ void MainWindow::moveEvent(QMoveEvent *event)
 
 void MainWindow::resizeTriggered()
 {
-    if (!_resizer) {
+    if (!resizer) {
         int newWidth  = width();
         int newHeight = height();
 
@@ -80,8 +80,8 @@ void MainWindow::resizeTriggered()
         graphicsView->setMinimumSize(DEFAULT_SCREENWIDTH, DEFAULT_SCREENHEIGHT);
 
         game.reset(new Game(graphicsView.get(), config.get(), newWidth, newHeight));
-        _resizer->stop();
+        resizer->stop();
     }
 
-    _resized = false;
+    resized = false;
 }

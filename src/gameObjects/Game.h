@@ -48,20 +48,20 @@ public:
    std::unique_ptr<Scene> scene;
 
 private:
-    bool _gameFinished;
-    bool _gameStarted;
-    bool _gameActuallyStarted;
-    bool _physicsComplexAnalysis;
-    bool _physicsDisableCollisionDetection;
+    bool gameFinished;
+    bool gameStarted;
+    bool gameActuallyStarted;
+    bool physicsComplexAnalysis;
+    bool physicsDisableCollisionDetection;
 
-    int _score;
-    int _scoreRecord;
-    int _screenWidth;
-    int _screenHeight;
-    int _physicsTickRate;
+    int score;
+    int scoreRecord;
+    int screenWidth;
+    int screenHeight;
+    int physicsTickRate;
 
-    double _physicsSpeedFactor;
-    double _scaleFactor;
+    double physicsSpeedFactor;
+    double scaleFactor;
 
     // Загрузка данных из конфига (ЕСЛИ ЕСТЬ!!!)
     void loadConfiguration();

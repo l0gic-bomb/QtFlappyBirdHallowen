@@ -6,16 +6,16 @@
 #include <QElapsedTimer>
 #include <QGraphicsView>
 
-class View : public QGraphicsView
+class View final : public QGraphicsView
 {
     Q_OBJECT
 
 private:
-    QElapsedTimer* _timer;
+    std::unique_ptr<QElapsedTimer> timer;
 
 public:
     View(QWidget *parent);
-    ~View();
+    ~View() = default;
 
 protected:
     //! Переопределение метода для сцены

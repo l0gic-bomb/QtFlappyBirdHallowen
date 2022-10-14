@@ -2,13 +2,8 @@
 
 View::View(QWidget *parent) : QGraphicsView(parent)
 {
-    _timer = new QElapsedTimer();
-    _timer->start();
-}
-
-View::~View()
-{
-    delete _timer;
+    timer.reset(new QElapsedTimer());
+    timer->start();
 }
 
 void View::paintEvent(QPaintEvent *event)

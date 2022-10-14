@@ -57,16 +57,16 @@ void Bird::slDesignBird()
 
     if (_wingState == WingStates::middle) {
         if (_wingDirection) {
-            design.load(BIRD_DOWN);
+            design.load(":/graphics/bird_down.png");
             _wingState = WingStates::down;
             _wingDirection = false;
         } else {
-            design.load(BIRD_UP);
+            design.load(":/graphics/bird_up.png");
             _wingState = WingStates::up;
             _wingDirection = true;
         }
     } else {
-        design.load(BIRD_MIDDLE);
+        design.load(":/graphics/bird_middle.png");
         _wingState = WingStates::middle;
     }
     setPixmap(design.scaled(design.size() * scaleFactor));

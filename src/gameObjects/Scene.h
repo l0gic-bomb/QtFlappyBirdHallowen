@@ -25,7 +25,6 @@ public:
     QGraphicsPixmapItem* pipe[2][3];
     std::unique_ptr<QGraphicsPixmapItem> ground;
 
-//    QList<QPair<int, QGraphicsItem>> groupItem;
     QGraphicsItem* groupItem[8][GROUP_MAX_ITEM_COUNT];
 
     Bird* bird;

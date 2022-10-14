@@ -23,9 +23,9 @@ protected:
     void moveEvent(QMoveEvent *event) override;
 
 private:
-    std::unique_ptr<QTimer> _resizer;
-    std::unique_ptr<QTimer> _renderTimer;
-    bool _resized;
+    std::unique_ptr<QTimer> resizer;
+    std::unique_ptr<QTimer> renderTimer;
+    bool resized;
 
 private:
     void prepareManualViewportUpdate();
