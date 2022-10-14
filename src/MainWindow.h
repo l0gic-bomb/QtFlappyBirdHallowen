@@ -1,11 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "common.h"
 #include <QMainWindow>
 #include <QSettings>
 #include <QTimer>
 
-//!* Главное окно игры *//
+#include "View.h"
+#include "gameObjects/Game.h"
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -31,6 +34,8 @@ private slots:
     void resizeTriggered();
 
 protected:
+    std::unique_ptr<View> graphicsView;
+    std::unique_ptr<Game> game;
     std::unique_ptr<QSettings> config;
     double scaleFactor;
 
